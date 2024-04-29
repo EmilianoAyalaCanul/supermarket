@@ -1,0 +1,21 @@
+from django.contrib import admin
+from .models import *
+
+admin.site.register(Cliente)
+admin.site.register(Personal)
+admin.site.register(Supermercado)
+admin.site.register(Proveedor)
+admin.site.register(CategoriaProducto)
+admin.site.register(Producto)
+admin.site.register(Descuento)
+admin.site.register(Merma)
+admin.site.register(Moneda)
+admin.site.register(FormaPago)
+admin.site.register(MetodoPago)
+admin.site.register(Compra)
+admin.site.register(DetalleCompra)
+admin.site.register(Venta)
+admin.site.register(DetalleVenta)
+admin.site.register(Factura)
+admin.site.register(Deuda)
+admin.site.register(PagoDeuda)

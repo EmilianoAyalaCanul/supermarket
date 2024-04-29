@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta  name="description" content="Inicia sesión en nuestra plataforma para acceder a tu cuenta y disfrutar de todos nuestros servicios.">
+    <meta name="author" content="Ayala Canul Emiliano">
+    <title>PrimeMed Supply</title>
+    {% comment %} <link rel="stylesheet" href="static/css/bootstrap.min.css" /> {% endcomment %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">        
+    <link href="{% static 'css/pnotify.custom.min.css' %}" type="text/css" rel="stylesheet">
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/pnotify.custom.min.js' %}"></script>
+        
+  </head>
+  <body>
+    <script>
+      class Alerta{        
+        constructor(tipo, titulo, texto){        
+          this.tipo = tipo;
+          this.titulo = titulo;
+          this.texto = texto;        
+          this.showAlerta();
+        }
+
+        showAlerta(){        
+          if(this.tipo == Alerta.SUCCESS || this.tipo === Alerta.ERROR || this.tipo === Alerta.WARNING || this.tipo === Alerta.INFO){
+              let le_titulo = this.titulo;
+              let le_texto = this.texto;
+              let le_tipo = this.tipo;                        
+              let tiempo_delay = 7500;
+
+                  if(this.tipo == Alerta.SUCCESS){
+                      tiempo_delay = 5500;
+                  }else if(this.tipo == Alerta.INFO){
+                      tiempo_delay = 10000;            
+                  }else if(this.tipo == Alerta.WARNING){
+                      tiempo_delay = 15000;                
+                  }else if(this.tipo == Alerta.ERROR){
+                      tiempo_delay = 20000;
+                  }  
+
+              $(function(){                
+                  new PNotify({                      
+                      title: le_titulo,
+                      text: le_texto,
+                      styling: 'bootstrap3',
+                      type: le_tipo,
+                      delay: tiempo_delay,
+                  });    
+              });
+          }else{
+              alert(this.titulo + ': ' + this.texto);
+          }
+        }
+
+        show(){
+            this.showAlerta();
+        }
+      }
+      Alerta.SUCCESS = 'success';
+      Alerta.ERROR = 'error';
+      Alerta.WARNING = 'warning';
+      Alerta.INFO = 'info';
+    </script>
+    
+    <script type="text/javascript">        
+      {% if messages %} {# Cuando proviene del servidor #}
+          {% for message in messages %}                
+              {% if message.level_tag == 'error' %}                          
+                  new Alerta(Alerta.ERROR, '{{message.message}}', '{{message.extra_tags}}');
+              {% elif message.level_tag == 'success'%}
+                  new Alerta(Alerta.SUCCESS, '{{message.message}}', '{{message.extra_tags}}');
+              {% elif message.level_tag == 'warning'%}
+                  new Alerta(Alerta.WARNING, '{{message.message}}', '{{message.extra_tags}}');
+              {% elif message.level_tag == 'info'%}
+                  new Alerta(Alerta.INFO, '{{message.message}}', '{{message.extra_tags}}');
+              {% else %}            
+                  new Alerta(Alerta.INFO, 'DEV: {{message.message}}', '{{message.extra_tags}}');
+              {% endif %}
+          {% endfor %}        
+      {% endif %}
+    </script>
+    <style>
+        .gradient-custom-2 {
+        /* fallback for old browsers */
+        background: #03fcba;
+
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to right, #24eeeb, #277ab6, #1c49b1, #06257c);
+
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to right, #0d97ec, #1074bc, #1c49b1, #06257c);
+        }
+
+        @media (min-width: 768px) {
+            .gradient-form {
+                height: 100vh !important;
+            }
+            }
+            @media (min-width: 769px) {
+            .gradient-custom-2 {
+                border-top-right-radius: .3rem;
+                border-bottom-right-radius: .3rem;
+            }
+        }
+    </style>
+    <section class="h-100 gradient-form" style="background-color: #eee">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-xl-10">
+            <div class="card rounded-3 text-black">
+              <div class="row g-0">
+                <div class="col-lg-6">
+                  <div class="card-body p-md-5 mx-md-4">
+                    <div class="text-center">
+                      <img
+                        src={% static 'img/prime_med_supply_logo.png' %}                        
+                        style="width: 185px"
+                        alt="logo"
+                      />
+                      <h4 class="mt-1 mb-5 pb-1">Bienvenido</h4>
+                    </div>
+
+                    <form method="POST">
+                      {% csrf_token %}
+                      <p>Por favor, ingrese a su cuenta</p>
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <input
+                          type="text"
+                          name="username"
+                          id="usuario"
+                          class="form-control"
+                          placeholder="Usuario"
+                          required
+                        />
+                        <label class="form-label" for="usuario"
+                          >Usuario</label
+                        >
+                      </div>
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <input
+                          type="password"
+                          name="password"
+                          id="contrasena"
+                          class="form-control"
+                          placeholder="*****"
+                          required
+                        />
+                        <label class="form-label" for="contrasena"
+                          >Contraseña</label
+                        >
+                      </div>
+
+                      <div class="text-center pt-1 mb-5 pb-1">
+                        <button
+                        type="submit"
+                          data-mdb-button-init
+                          data-mdb-ripple-init
+                          class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                          type="button"
+                        >
+                          Log in
+                        </button>
+                        <a class="text-muted" href="#!">¿Has olvidado tu contraseña?</a>
+                      </div>
+                      
+                      <div class="d-flex align-items-center justify-content-center pb-4" >
+                        <p class="mb-0 me-2">¿No tienes cuenta?</p>
+                        <a href="{% url 'sistema:registro_cliente' %}" class="btn btn-outline-danger" role="button">Crear cuenta</a>
+                        
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div
+                  class="col-lg-6 d-flex align-items-center gradient-custom-2"
+                >
+                  <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                    <h4 class="mb-4">Especialistas en Suministros Médicos</h4>
+                    <p class="small mb-0">
+                      Somos una empresa especializada en garantizar 
+                      el abastecimiento eficiente y oportuno de suministros 
+                      médicos esenciales para hospitales, clínicas y centros 
+                      de salud, contribuyendo así a la atención de calidad 
+                      y al bienestar de los pacientes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

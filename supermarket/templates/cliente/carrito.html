@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+
+{% block main_content %}  
+<br>
+<form method="POST">
+    {% csrf_token %}
+    <div class = "col-sm-12">
+        <div class = "card">                        
+            <div class="card-header text-center">          
+                <h4 class="card-title "><strong>Productos </strong></h4>                    
+            </div>            
+            
+            {% if compra %}
+            <div class="card-body">     
+                <div class="text-center">
+                    <p class="text=center"><strong>Detalle de pago</strong></p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="moneda">Moneda</label>
+                    <select class="form-control" id="moneda" name='moneda'>
+                        {% for value in moneda %}
+                        <option value="{{value.id}}" >{{value.nombre}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="forma_pago">Forma pago</label>
+                    <select class="form-control" id="forma_pago" name='forma_pago'>
+                        {% for value in forma_pago %}
+                        <option value="{{value.id}}" >{{value.nombre}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="metodo_pago">Metodo Pago</label>
+                    <select class="form-control" id="metodo_pago" name='metodo_pago'>
+                        {% for value in metodo_pago %}
+                        <option value="{{value.id}}" >{{value.nombre}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <hr>
+                <br>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">subtotal</th>
+                        <th scope="col">impuesto</th>
+                        <th scope="col">total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in compra %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{producto.nombre}}</td>
+                                <td> {{producto.cantidad|floatformat}}</td>
+                                <td>$ {{producto.subtotal|floatformat}} </td>
+                                <td>$ {{producto.impuesto|floatformat}} </td>
+                                <td>$ {{producto.total|floatformat}} </td>
+                            </tr>        
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+            <br>
+
+            <div class = "row">
+                <div class = "col-12 col-sm-6 col-md-6">                
+                </div>
+                <div class = "col-12 col-sm-6 col-md-6">
+                    <div class="form-group row">
+                        <label for="cantidad_global" class="col-sm-6 col-form-label">Piezas Totales</label>
+                        <div class="col-sm-6">
+                        <input type="text" readonly class="form-control-plaintext" id="cantidad_global" value="{{cantidad_global|floatformat}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="subtotal_global" class="col-sm-6 col-form-label">Subtotal</label>
+                        <div class="col-sm-6">
+                        <input type="text" readonly class="form-control-plaintext" id="subtotal_global" value="$ {{subtotal_global|floatformat}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="impuesto_global" class="col-sm-6 col-form-label">Impuestos</label>
+                        <div class="col-sm-6">
+                        <input type="text" readonly class="form-control-plaintext" id="impuesto_global" value="$ {{impuesto_global|floatformat}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="total_global" class="col-sm-6 col-form-label">Total</label>
+                        <div class="col-sm-6">
+                        <input type="text" readonly class="form-control-plaintext" id="total_global" value="$ {{total_global|floatformat}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="card-footer text-muted">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Comprar</button>
+                <br>
+                <a href="{% url 'sistema:cancelar_carrito' %}" class="btn btn-danger btn-lg  btn-block" role="button">Cancelar</a>
+            </div>            
+            
+            {% else %}
+            <div class="card-body">     
+                <div class="text-center">
+                    <p> Sin productos en el carrito. </p>
+                </div>
+            </div>
+            {% endif %}  
+        </div>
+    </div>  
+
+</form>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+{% endblock %}

@@ -1,0 +1,44 @@
+.columna-temas{
+    max-width: 200px;
+    overflow: hidden;
+}
+
+.recuadro-status{
+    border-left: solid 1px lightgray;
+    padding-left: 7px;
+    right: 8px;
+    position: absolute;
+    display: inline-block;
+    height: 30px;
+    /* padding-top: 2px; */
+}
+
+.recuadro-status .mdi{
+    font-size: 20px;
+    vertical-align: sub;
+}
+
+/* VISOR DE PDF */
+.visor-pdf{
+    /*border: 1px solid black;*/
+    background-color: whitesmoke;
+    height: 100%;
+}
+
+
+/* TABLA PRINCIPAL */
+
+#tabla-sentencias td{
+    padding: 4px  3px !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+
+/* P-NOTIFY */
+.ui-pnotify{        
+    top: 130px;    
+}
+
+.ui-pnotify:hover{
+    opacity: 20%;
+}
